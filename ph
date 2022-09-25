@@ -24,7 +24,7 @@ output=$(grep "view_video.php?viewkey=" <<< $dump_html | sed 's/href=//g' | sed 
 
 #Grab the urls and titles
 urls=$(awk '$2 ~ /https/ {print $2}' <<< $output)
-titles=$(awk '$2 ~ /https/ {for(i=3;i<9;i++) printf $i" ";print ""}' <<< $output)
+titles=$(awk '$2 ~ /https/ {for(i=3;i<=15;i++)if($i=="class=" || $i=="class=fade"){break;} else {printf $i" "};print ""}' <<< $output)
 vals=$(paste <(printf "%s\n" "${urls[@]}") <(printf "%s\n" "${titles[@]}"))
 
 while true; do
