@@ -1,5 +1,8 @@
 #!/bin/bash
 
+shopt -s expand_alias
+alias fzf="fzf -m --reverse"
+
 #Prompt user for search query
 echo -n "Search: "
 read -r query
@@ -19,7 +22,7 @@ dump_html=$(curl -s ${base_addr}${search_string}${query})
 #Pull only the lines that are relevent
 output=$(grep "view_video.php?viewkey=" <<< $dump_html | sed 's/href=//g' | sed 's/"//g' | sed 's/\/view_/https:\/\/www.pornhub.com\/view_/g')
 
-#Grab the urls
+#Grab the urls and titles
 urls=$(awk '$2 ~ /https/ {print $2}' <<< $output)
 titles=$(awk '$2 ~ /https/ {for(i=3;i<9;i++) printf $i" ";print ""}' <<< $output)
 vals=$(paste <(printf "%s\n" "${urls[@]}") <(printf "%s\n" "${titles[@]}"))
