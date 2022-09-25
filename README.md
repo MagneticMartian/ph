@@ -10,5 +10,3 @@ Then a display will show urls with a portion of the title next to it. Select whi
 fzf mpv
 ### depending on distro
 paste
-## Known bugs
-1) In order to grab enough of the titles some of the html artifacts still display
