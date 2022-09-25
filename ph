@@ -1,6 +1,6 @@
 #!/bin/bash
 
-shopt -s expand_alias
+shopt -s expand_aliases
 alias fzf="fzf -m --reverse"
 
 #Prompt user for search query
