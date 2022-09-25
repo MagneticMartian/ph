@@ -25,14 +25,14 @@ titles=$(awk '$2 ~ /https/ {for(i=3;i<9;i++) printf $i" ";print ""}' <<< $output
 vals=$(paste <(printf "%s\n" "${urls[@]}") <(printf "%s\n" "${titles[@]}"))
 
 while true; do
-	#Create interavtive list of urls to select from
-	choose=$(echo -e "$vals" | sed -e 's/title=//' | sort | uniq | fzf)
+    #Create interavtive list of urls to select from
+    choose=$(echo -e "$vals" | sed -e 's/title=//' | sort | uniq | fzf)
     pick=$(awk '{print $1}' <<< $choose)
     
-	#If no choice made exit out and clean up
-	[ -z "$pick" ] && clear && exit 1
+    #If no choice made exit out and clean up
+    [ -z "$pick" ] && clear && exit 1
 
-	#Play video at urls
-	mpv "$pick"
-#	clear
+    #Play video at urls
+    mpv "$pick"
+    clear
 done
