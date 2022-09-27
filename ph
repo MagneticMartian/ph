@@ -1,7 +1,7 @@
 #!/bin/bash
 
 shopt -s expand_aliases
-alias fzf="fzf -m --reverse"
+alias fzf="fzf +m --reverse"
 
 #Prompt user for search query
 echo -n "Search: "
