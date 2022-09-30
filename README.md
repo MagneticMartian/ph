@@ -14,3 +14,5 @@ fzf mpv
 pup
 ### depending on distro
 paste
+# TODO
+Combine the seperate scripts into a single script
