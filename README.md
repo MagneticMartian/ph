@@ -11,7 +11,7 @@ To exit press [ESC]
 ## deps
 fzf mpv
 ### for rt
-pup hxnormalize
+pup html-xml-utils
 ### depending on distro
 paste
 # TODO
