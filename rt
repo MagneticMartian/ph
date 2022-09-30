@@ -12,15 +12,12 @@ read -r query
 
 rt_base_addr="https://www.redtube.com/"
 rt_search_string="?search="
-echo "addrs defined"
+
 # Deal with different seperaters
 query=$(sed -e 's/+/%2B/g' -e 's/#/%23/g' -e 's/&/%26/g' -e 's/ /+/g' <<< $query)
 
 # Pull the html of site silently
 dump_html=$(curl -s ${rt_base_addr}${rt_search_string}${query} | hxnormalize -x)
-echo "DUMP CREATED"
-# Pull only the lines that are relevent
-#output=$(grep "view_video.php?viewkey=" <<< $dump_html | sed 's/href=//g' | sed 's/"//g' | sed 's/\/view_/https:\/\/www.pornhub.com\/view_/g')
 
 # Grab the urls and titles
 urls=$(echo $dump_html | pup 'li' | pup 'div.video_block_wrapper' | pup 'div.video_title' | grep "href" | pup 'a attr{href}' | sed -e 's/\//https:\/\/www.redtube.com\//')
