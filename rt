@@ -1,0 +1,41 @@
+#!/bin/bash
+
+shopt -s expand_aliases
+alias fzf="fzf +m --reverse"
+
+# Prompt user for search query
+echo -n "Search: "
+read -r query
+
+# Make sure they gave an input
+[ -z "$query" ] && echo "No Input Given" && exit 1
+
+rt_base_addr="https://www.redtube.com/"
+rt_search_string="?search="
+echo "addrs defined"
+# Deal with different seperaters
+query=$(sed -e 's/+/%2B/g' -e 's/#/%23/g' -e 's/&/%26/g' -e 's/ /+/g' <<< $query)
+
+# Pull the html of site silently
+dump_html=$(curl -s ${rt_base_addr}${rt_search_string}${query} | hxnormalize -x)
+echo "DUMP CREATED"
+# Pull only the lines that are relevent
+#output=$(grep "view_video.php?viewkey=" <<< $dump_html | sed 's/href=//g' | sed 's/"//g' | sed 's/\/view_/https:\/\/www.pornhub.com\/view_/g')
+
+# Grab the urls and titles
+urls=$(echo $dump_html | pup 'li' | pup 'div.video_block_wrapper' | pup 'div.video_title' | grep "href" | pup 'a attr{href}' | sed -e 's/\//https:\/\/www.redtube.com\//')
+titles=$(echo $dump_html | pup 'li' | pup 'div.video_block_wrapper' | pup 'div.video_title' | grep "href" | pup 'a attr{title}')
+vals=$(paste <(printf "%s\n" "${titles[@]}") <(printf "%s\n" "${urls[@]}"))
+
+while true; do
+    # Create interavtive list of urls to select from
+    choose=$(echo -e "$vals" | sort | fzf)
+    pick=$(awk '{print $NF}' <<< $choose)
+    
+    # If no choice made exit out and clean up
+    [ -z "$pick" ] && clear && exit 1
+
+    # Play video at urls
+    mpv "$pick"
+    clear
+done
