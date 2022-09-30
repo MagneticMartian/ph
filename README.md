@@ -1,5 +1,5 @@
 # ph and rt
-A fuzzy finder based cli PornHub search engine:
+A fuzzy finder based cli PornHub and RedTube search engines:
 ## Ex
 ```
 $ ph
@@ -10,5 +10,7 @@ Then a display will show a portion of the title with the url next to it. Select 
 To exit press [ESC]
 ## deps
 fzf mpv
+### for rt
+pup
 ### depending on distro
 paste
