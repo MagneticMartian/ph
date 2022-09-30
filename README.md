@@ -11,7 +11,7 @@ To exit press [ESC]
 ## deps
 fzf mpv
 ### for rt
-pup
+pup hxnormalize
 ### depending on distro
 paste
 # TODO
