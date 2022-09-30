@@ -1,4 +1,4 @@
-# ph
+# ph and rt
 A fuzzy finder based cli PornHub search engine:
 ## Ex
 ```
