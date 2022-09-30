@@ -11,7 +11,7 @@ To exit press [ESC]
 ## deps
 fzf mpv
 ### for rt
-pup html-xml-utils
+pup
 ### depending on distro
 paste
 # TODO
