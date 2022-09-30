@@ -17,7 +17,7 @@ rt_search_string="?search="
 query=$(sed -e 's/+/%2B/g' -e 's/#/%23/g' -e 's/&/%26/g' -e 's/ /+/g' <<< $query)
 
 # Pull the html of site silently
-dump_html=$(curl -s ${rt_base_addr}${rt_search_string}${query} | hxnormalize -x)
+dump_html=$(curl -s ${rt_base_addr}${rt_search_string}${query})
 
 # Grab the urls and titles
 urls=$(pup 'li' <<< $dump_html | pup 'div.video_block_wrapper' | pup 'div.video_title' | grep "href" | pup 'a attr{href}' | sed -e 's/\//https:\/\/www.redtube.com\//')
