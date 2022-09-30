@@ -20,8 +20,8 @@ query=$(sed -e 's/+/%2B/g' -e 's/#/%23/g' -e 's/&/%26/g' -e 's/ /+/g' <<< $query
 dump_html=$(curl -s ${rt_base_addr}${rt_search_string}${query} | hxnormalize -x)
 
 # Grab the urls and titles
-urls=$(echo $dump_html | pup 'li' | pup 'div.video_block_wrapper' | pup 'div.video_title' | grep "href" | pup 'a attr{href}' | sed -e 's/\//https:\/\/www.redtube.com\//')
-titles=$(echo $dump_html | pup 'li' | pup 'div.video_block_wrapper' | pup 'div.video_title' | grep "href" | pup 'a attr{title}')
+urls=$(pup 'li' <<< $dump_html | pup 'div.video_block_wrapper' | pup 'div.video_title' | grep "href" | pup 'a attr{href}' | sed -e 's/\//https:\/\/www.redtube.com\//')
+titles=$(pup 'li' <<< $dump_html | pup 'div.video_block_wrapper' | pup 'div.video_title' | grep "href" | pup 'a attr{title}')
 vals=$(paste <(printf "%s\n" "${titles[@]}") <(printf "%s\n" "${urls[@]}"))
 
 while true; do
