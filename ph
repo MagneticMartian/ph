@@ -22,20 +22,21 @@ dump_html=$(curl -s ${base_addr}${search_string}${query})
 #Pull only the lines that are relevent
 output=$(grep "view_video.php?viewkey=" <<< $dump_html | sed 's/href=//g' | sed 's/"//g' | sed 's/\/view_/https:\/\/www.pornhub.com\/view_/g')
 
-#Grab the urls and titles
+# Grab the urls and titles
 urls=$(awk '$2 ~ /https/ {print $2}' <<< $output)
 titles=$(awk '$2 ~ /https/ {for(i=3;i<=15;i++)if($i=="class=" || $i=="class=fade"){break;} else {printf $i" "};print ""}' <<< $output)
-vals=$(paste <(printf "%s\n" "${urls[@]}") <(printf "%s\n" "${titles[@]}"))
+vals=$(paste <(printf "%s\n" "${titles[@]}") <(printf "%s\n" "${urls[@]}"))
 
 while true; do
-    #Create interavtive list of urls to select from
+    # Create interavtive list of urls to select from
     choose=$(echo -e "$vals" | sed -e 's/title=//' | sort | uniq | fzf)
-    pick=$(awk '{print $1}' <<< $choose)
-    
-    #If no choice made exit out and clean up
+    pick=$(awk '{print $NF}' <<< $choose)
+
+    # If no choice made exit out and clean up
     [ -z "$pick" ] && clear && exit 1
 
-    #Play video at urls
+    # Play video at urls
     mpv "$pick"
     clear
 done
+
